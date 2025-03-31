@@ -3,12 +3,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+    
 
     try {
-       
+
         const findIndex = tableData.findIndex(item => item.id === parseInt(params.id));
 
-        return NextResponse.json(tableData[findIndex], { status: 201 });
+        console.log( "findIndex", findIndex);
+
+        const data = await req.json();
+
+         if(findIndex === -1) {
+
+            return NextResponse.json(
+                {
+                    error: "Comment not found",
+                    status: 404,
+                },
+                { status: 404 }
+            );
+         }
+
+        tableData[findIndex].comment = data.comment;
+
+        return NextResponse.json(tableData, { status: 201 });
 
     } catch (error) {
         return NextResponse.json(
@@ -21,13 +39,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     }
 
-}
+};
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
     try {
         const findIndex = tableData.findIndex(item => item.id === parseInt(params.id));
         tableData.splice(findIndex, 1);
-        
+
         return NextResponse.json(tableData, { status: 201 });
 
     } catch (error) {
