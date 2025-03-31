@@ -1,9 +1,10 @@
 import React from 'react'
 
 const page = () => {
+
   return (
-    <div>hi page</div>
+       <div>hi pagee</div>
   )
 }
 
-export default page
+export default page;
